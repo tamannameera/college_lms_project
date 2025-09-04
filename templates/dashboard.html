@@ -1,0 +1,164 @@
+{% extends "index.html" %}
+{% block content %}
+<style>
+    .feature-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 12px;
+    }
+
+    .feature-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .upload-bg {
+        background: #e3f2fd;
+    }
+
+    .quiz-bg {
+        background: #fff3cd;
+    }
+
+    .lecture-bg {
+        background: #f1f8e9;
+    }
+
+    .notes-bg {
+        background: #ede7f6;
+    }
+
+    .grades-bg {
+        background: #fce4ec;
+    }
+
+    .support-bg {
+        background: #e0f7fa;
+    }
+
+    .courses-bg {
+    background: linear-gradient(135deg, #f9f871, #ffc107);
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+</style>
+
+<div class="container mt-4">
+    <h3 class="mb-4">👋 Welcome, {{ user.role.title() }}</h3>
+
+    <div class="row g-4">
+        {% if user.role == 'teacher' %}
+            <div class="col-md-4">
+                <a href="{{ url_for('upload_note') }}" class="text-decoration-none text-dark">
+                    <div class="card feature-card upload-bg text-center p-4 h-100">
+                        <div class="card-icon">📥</div>
+                        <h5>Upload Notes</h5>
+                        <p>Add course materials as PDFs for students.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ url_for('upload_video') }}" class="text-decoration-none text-dark">
+                    <div class="card feature-card lecture-bg text-center p-4 h-100">
+                        <div class="card-icon">🎥</div>
+                        <h5>Upload Lecture</h5>
+                        <p>Share recorded video lectures or tutorials.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ url_for('create_quiz') }}" class="text-decoration-none text-dark">
+                    <div class="card feature-card quiz-bg text-center p-4 h-100">
+                        <div class="card-icon">✏️</div>
+                        <h5>Create Quiz</h5>
+                        <p>Design quizzes to test students' learning.</p>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+
+        {% if user.role == 'student' %}
+            <div class="col-md-4">
+                <a href="{{ url_for('view_notes') }}" class="text-decoration-none text-dark">
+                    <div class="card feature-card notes-bg text-center p-4 h-100">
+                        <div class="card-icon">📄</div>
+                        <h5>View Notes</h5>
+                        <p>Access PDF notes and class handouts.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ url_for('view_videos') }}" class="text-decoration-none text-dark">
+                    <div class="card feature-card lecture-bg text-center p-4 h-100">
+                        <div class="card-icon">🎞</div>
+                        <h5>Watch Lectures</h5>
+                        <p>View all lecture videos anytime.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ url_for('take_quiz') }}" class="text-decoration-none text-dark">
+                    <div class="card feature-card quiz-bg text-center p-4 h-100">
+                        <div class="card-icon">📝</div>
+                        <h5>Take Quiz</h5>
+                        <p>Test your knowledge on each topic.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ url_for('view_grades') }}" class="text-decoration-none text-dark">
+                    <div class="card feature-card grades-bg text-center p-4 h-100">
+                        <div class="card-icon">📊</div>
+                        <h5>View Grades</h5>
+                        <p>Track your quiz scores and progress.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+    <a href="{{ url_for('view_courses') }}" class="text-decoration-none text-dark">
+        <div class="card feature-card courses-bg text-center p-4 h-100">
+            <div class="card-icon">📚</div>
+            <h5>View Courses</h5>
+            <p>Browse and enroll in available courses.</p>
+        </div>
+    </a>
+</div>
+
+
+<div class="col-md-4 mb-3">
+  <a href="{{ url_for('my_courses') }}" class="text-decoration-none text-dark">
+    <div class="card feature-card courses-bg text-center p-4 h-100">
+      <div class="card-icon">🎓</div>
+      <h5>My Courses</h5>
+      <p>View the courses you’re enrolled in.</p>
+    </div>
+  </a>
+</div>
+
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container">
+  <h2>📚 Available Courses</h2>
+  <div class="row">
+    {% for course in courses %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        {% if course.thumbnail %}
+          <img src="{{ url_for('static', filename='course_thumbnails/' + course.thumbnail) }}" class="card-img-top">
+        {% endif %}
+        <div class="card-body">
+          <h5>{{ course.course_name }}</h5>
+          <p>{{ course.description }}</p>
+          <small class="text-muted">Instructor: {{ course.instructor }}</small>
+          {% if course.id in enrolled_courses %}
+            <span
+              class="badge bg-success"
+              role="button"
+              data-bs-toggle="modal"
+              data-bs-target="#courseModal"
+              data-course-name="{{ course.course_name }}"
+              data-course-desc="{{ course.description }}"
+              data-course-inst="{{ course.instructor }}"
+            >✅ Enrolled</span>
+          {% else %}
+            <form method="POST" action="{{ url_for('enroll', course_id=course.id) }}">
+              <button type="submit" class="btn btn-primary">Enroll</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Modal HTML (placed once at bottom) -->
+<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="courseModalLabel">Course Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p id="modalDesc"></p>
+        <p><strong>Instructor:</strong> <span id="modalInst"></span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// JavaScript to populate modal with data from badge
+var courseModal = document.getElementById('courseModal');
+courseModal.addEventListener('show.bs.modal', function (event) {
+  var trigger = event.relatedTarget;
+  document.getElementById('courseModalLabel').innerText = trigger.getAttribute('data-course-name');
+  document.getElementById('modalDesc').innerText = trigger.getAttribute('data-course-desc');
+  document.getElementById('modalInst').innerText = trigger.getAttribute('data-course-inst');
+});
+</script>
+{% endblock %}

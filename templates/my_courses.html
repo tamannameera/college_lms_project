@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container my-4">
+  <h2 class="mb-4 text-primary">🎓 My Courses</h2>
+
+  {% if courses %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for course in courses %}
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-3">
+          {% if course.thumbnail %}
+          <img src="{{ url_for('static', filename='course_thumbnails/' + course.thumbnail) }}" 
+               class="card-img-top rounded-top" alt="{{ course.course_name }}">
+          {% else %}
+          <div class="bg-secondary text-white d-flex align-items-center justify-content-center" 
+               style="height: 180px; border-radius: 0.375rem 0.375rem 0 0;">
+            <span class="fs-1">📚</span>
+          </div>
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ course.course_name }}</h5>
+            <p class="card-text text-muted flex-grow-1">{{ course.description | truncate(100, True, '...') }}</p>
+            <p class="card-text"><small class="text-secondary">Instructor: {{ course.instructor }}</small></p>
+            <a href="#" class="btn btn-outline-primary mt-auto">View Details</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      You have not enrolled in any courses yet.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

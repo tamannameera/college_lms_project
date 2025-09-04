@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% block content %}
+<style>
+    .note-card {
+        transition: transform 0.2s ease;
+    }
+
+    .note-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .download-link {
+        font-weight: bold;
+        color: #0d6efd;
+        text-decoration: none;
+    }
+
+    .download-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container">
+    <h2 class="mb-4">📄 Available Notes</h2>
+
+    {% if notes %}
+    <div class="row g-4">
+        {% for note in notes %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card note-card h-100 p-3">
+                <h5 class="card-title">{{ note.course_title }}</h5>
+                <p class="card-text">Download your note below:</p>
+                <a href="{{ url_for('uploaded_file', filename=note.filename) }}" class="download-link" target="_blank">
+                    ⬇️ Download PDF
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No notes available yet. 📂</p>
+    {% endif %}
+</div>
+{% endblock %}

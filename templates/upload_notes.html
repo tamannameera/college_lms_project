@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h3 class="mb-4 text-primary">📄 Upload Course Note</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="course_title" class="form-label">📘 Course Title</label>
+        <input type="text" class="form-control" id="course_title" name="course_title" placeholder="e.g., Data Structures - Unit 1" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="note_file" class="form-label">📎 Upload PDF</label>
+        <input type="file" class="form-control" id="note_file" name="note_file" accept=".pdf" required>
+        <div class="form-text text-muted">Only PDF files are allowed.</div>
+      </div>
+
+      <button type="submit" class="btn btn-success">⬆️ Upload Note</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

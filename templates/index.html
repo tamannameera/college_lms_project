@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LMS Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .main-content {
+            padding: 30px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #435c6b, #444242);
+        }
+
+        .dashboard-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('dashboard') }}">LMS Portal</a>
+
+    <!-- Right-side buttons -->
+    <div class="d-flex">
+      <!-- Dashboard Button -->
+      <button class="btn btn-outline-primary me-2" type="button" onclick="location.href='{{ url_for('dashboard') }}'">
+        🏠 Dashboard
+      </button>
+
+      <!-- Back Button -->
+      <button id="backBtn" class="btn btn-outline-secondary" onclick="history.back()">🔙 Back</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Offcanvas Sidebar -->
+<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="sidebarMenu">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">LMS Dashboard</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        {% if user.role == 'student' %}
+            <a href="{{ url_for('home') }}" class="d-block text-white mb-2">🏠 Home</a>
+            <a href="{{ url_for('view_notes') }}" class="d-block text-white mb-2">📄 Notes</a>
+            <a href="{{ url_for('view_videos') }}" class="d-block text-white mb-2">🎥 Lectures</a>
+            <a href="{{ url_for('take_quiz') }}" class="d-block text-white mb-2">📝 Quizzes</a>
+            <a href="{{ url_for('view_grades') }}" class="d-block text-white mb-2">📊 Grades</a>
+            <a href="#" class="d-block text-white mb-2">💬 Support</a>
+        {% elif user.role == 'teacher' %}
+            <a href="{{ url_for('home') }}" class="d-block text-white mb-2">🏠 Home</a>
+            <a href="{{ url_for('upload_note') }}" class="d-block text-white mb-2">📥 Upload Notes</a>
+            <a href="{{ url_for('upload_video') }}" class="d-block text-white mb-2">📤 Upload Lecture</a>
+            <a href="{{ url_for('create_quiz') }}" class="d-block text-white mb-2">✏️ Create Quiz</a>
+        {% endif %}
+
+        <hr class="bg-white">
+        <a href="{{ url_for('logout') }}" class="text-danger d-block">🚪 Logout</a>
+    </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="main-content container-fluid">
+    {% block content %}
+    <!-- Page-specific content goes here -->
+    {% endblock %}
+</div>
+
+<!-- Script to hide back button if no history -->
+<script>
+  window.onload = function() {
+    if (history.length <= 1) {
+      document.getElementById('backBtn').style.display = 'none';
+    }
+  }
+</script>
+
+</body>
+</html>
